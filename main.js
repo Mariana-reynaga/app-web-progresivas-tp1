@@ -26,25 +26,24 @@ form.addEventListener('submit', (e)=>{
 
 const getPeli = async()=>{
     
-    try{
-        let ruta = pelicula;
-        const response = await fetch(ruta);
-        const data = await response.json();
-        
-        console.log(data)
+    let ruta = pelicula;
+    const response = await fetch(ruta);
+    const data = await response.json();
+    
+    console.log(data)
 
+    if (data.Response == "False") {
+        imprimirError()
+        
+    } else {
         datosPeli=[];
         datosPeli.push(data);
         
-        //favoritos.push(data);
-
         imprimirPoster(datosPeli);
-
+    
         console.log(datosPeli);
-        
-    } catch(error){
-        imprimirError();
     }
+
 } 
 
 function imprimirPoster(datosPeli){
@@ -65,9 +64,6 @@ function imprimirPoster(datosPeli){
 
             <h2 class="fw-semibold fs-3">Sinopsis:</h2>
             <p>${datosPeli[0].Plot}</p>
-
-            <button class="btn" id="agregar" onclick="pelisFav()">favorito</button>
-
         </div>`
 };
 
@@ -75,49 +71,3 @@ function imprimirError() {
     tarjeta.innerHTML=` `;
     tarjeta.innerHTML=`<h2>Ocurrio un Error. Porfavor Ingresar un Titulo Valido.</h2>`;
 }
-
-
-
-
-////////////////////////////////
-function pelisFav(){
-    pelisFaves= JSON.stringify(favoritos);
-
-    localStorage.setItem("fave", pelisFaves);
-
-}
-
-/*let espacioFave = document.getElementById("listaFav");
-
-function listaPelisFav(){
-    let listaString = localStorage.getItem("fave");
-
-    let peliArray= JSON.parse(listaString);
-
-    espacioFave.innerHTML=``;
-
-    for (let index = 0; index < peliArray.length; index++) {
-        
-        espacioFave.innerHTML+=`
-        <div class="col">
-            <div class="card" style="width: fit-content;">
-
-                <img src="${peliArray[index].Poster}" class="card-img-top">
-
-                <div class="card-body mt-3">
-                <h5 class="card-title">${peliArray[index].Title}</h5>
-
-                <ul class="list-group list-group mt-3">
-                    <li class="list-group-item">Estreno: ${peliArray[index].Released}</li>
-                    <li class="list-group-item">Director: ${peliArray[index].Director}</li>
-                    <li class="list-group-item">Duración: ${peliArray[index].Runtime}</li>
-                </ul>
-
-                <p class="card-text mt-3">${peliArray[index].Plot}</p>
-                </div>
-            </div>
-        </div>
-            `
-    }
-
-}*/
